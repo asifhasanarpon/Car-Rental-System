@@ -1,0 +1,19 @@
+{
+  "name": "car-rental-system",
+  "version": "1.0.0",
+  "description": "Executive Car Rental System - Bangladesh",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build": "echo 'Ready for Vercel deployment'"
+  },
+  "keywords": [
+    "car-rental",
+    "fleet-management",
+    "reservation-system",
+    "executive-cars"
+  ],
+  "author": "Asif Hasan",
+  "license": "ISC"
+}
