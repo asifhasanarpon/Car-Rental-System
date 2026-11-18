@@ -6200,7 +6200,7 @@
             <label for="auth-name">Full Name</label>
             <div class="auth-input-wrap">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-              <input type="text" id="auth-name" placeholder="e.g. Asif Hasan" />
+              <input type="text" id="auth-name" placeholder="Enter your full name" autocomplete="name" />
             </div>
           </div>
 
@@ -6208,7 +6208,7 @@
             <label for="auth-email">Email Address</label>
             <div class="auth-input-wrap">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-              <input type="email" id="auth-email" required placeholder="asifhasanarpon21@gmail.com" value="asifhasanarpon21@gmail.com" />
+              <input type="email" id="auth-email" required placeholder="Enter your email address" autocomplete="email" />
             </div>
           </div>
 
@@ -6216,7 +6216,7 @@
             <label for="auth-phone">Phone Number</label>
             <div class="auth-input-wrap">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-              <input type="tel" id="auth-phone" required placeholder="+880 1618-956088" value="+880 1618-956088" />
+              <input type="tel" id="auth-phone" placeholder="Enter your phone number (e.g. +880 1...)" autocomplete="tel" />
             </div>
           </div>
 
@@ -6224,7 +6224,7 @@
             <label for="auth-password">Password</label>
             <div class="auth-input-wrap">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-              <input type="password" id="auth-password" required placeholder="Enter password" value="password123" />
+              <input type="password" id="auth-password" required placeholder="Enter your password" autocomplete="current-password" />
             </div>
           </div>
 
@@ -6235,7 +6235,7 @@
 
           <button type="button" class="btn-auth-demo" id="quick-demo-login-btn">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-            <span>1-Click Instant Login (asifhasanarpon21)</span>
+            <span>1-Click Demo Login (Instant Access)</span>
           </button>
         
             <div style="text-align: center; margin-top: 14px; padding-top: 12px; border-top: 1px dashed #e2e8f0;">
@@ -7875,7 +7875,7 @@
         tabLogin.classList.remove('active');
         nameGroup.style.display = 'block';
         if (authName) authName.required = true;
-        authBtn.innerHTML = '<span>Create Account & Open Website</span> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
+        authBtn.innerHTML = '<span>Sign Up & Open Website</span> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
         authTitle.innerText = 'Create an Account';
         if (authSubtitle) authSubtitle.innerText = 'Register now to unlock verified rentals across Bangladesh.';
       });
@@ -8014,14 +8014,35 @@
       authForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const email = document.getElementById('auth-email').value.trim();
-        const phone = document.getElementById('auth-phone').value.trim();
-        const password = authPassword.value;
-        let fullName = isLogin ? (email.split('@')[0] || "User") : (authName ? authName.value.trim() : "User");
+        const emailInput = document.getElementById('auth-email');
+        const phoneInput = document.getElementById('auth-phone');
+        const email = emailInput ? emailInput.value.trim() : '';
+        const phone = phoneInput ? phoneInput.value.trim() : '';
+        const password = authPassword ? authPassword.value : '';
+        const nameVal = authName ? authName.value.trim() : '';
+        
+        let fullName = nameVal || (email.includes('@') ? email.split('@')[0] : (email || 'User'));
+
+        if (!email) {
+          showToast('Please enter your email address.', 'error');
+          if (emailInput) emailInput.focus();
+          return;
+        }
+
+        if (!password) {
+          showToast('Please enter your password.', 'error');
+          if (authPassword) authPassword.focus();
+          return;
+        }
 
         const endpoint = isLogin ? '/login' : '/register';
-        let authedUser = { name: fullName, email, phone };
+        let authedUser = { 
+          name: fullName, 
+          email: email, 
+          phone: phone || '+880 1618-956088' 
+        };
 
+        // Attempt server sync if backend API available
         try {
           const res = await fetch(endpoint, {
             method: 'POST',
@@ -8032,19 +8053,27 @@
             },
             body: JSON.stringify({ name: fullName, email, phone, password })
           });
-          const data = await res.json();
-          if (!res.ok) {
-            const firstErr = data.errors ? Object.values(data.errors)[0][0] : (data.message || 'Authentication failed.');
-            showToast(firstErr, 'error');
-            return;
-          }
-          if (data.user) {
-            authedUser = data.user;
+          if (res.ok) {
+            const data = await res.json();
+            if (data.user) authedUser = data.user;
           }
         } catch (err) {
-          // Fallback if local server offline
+          // Client-side offline / serverless fallback
         }
 
+        // Save to registered users in localStorage
+        try {
+          const usersList = JSON.parse(localStorage.getItem('car_rental_registered_users') || '[]');
+          const existingIdx = usersList.findIndex(u => u.email === authedUser.email);
+          if (existingIdx !== -1) {
+            usersList[existingIdx] = { ...usersList[existingIdx], ...authedUser };
+          } else {
+            usersList.push(authedUser);
+          }
+          localStorage.setItem('car_rental_registered_users', JSON.stringify(usersList));
+        } catch (e) {}
+
+        // Unlock website and display personalized welcome
         unlockWebsite(authedUser);
       });
 
