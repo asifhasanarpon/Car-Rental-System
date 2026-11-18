@@ -1,0 +1,26 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "asifhasanarpon21",
+      "email": "asifhasanarpon21@gmail.com",
+      "phone": "01964581171",
+      "password": "asdasd",
+      "created_at": "2026-11-17T09:51:22.757Z"
+    }
+  ],
+  "bookings": [
+    {
+      "id": 1,
+      "car_name": "Toyota Fortuner",
+      "pickup_location": "Dhaka, Gulshan-2",
+      "start_time": "2026-11-18T10:00:00.000Z",
+      "return_time": "2026-11-20T18:00:00.000Z",
+      "email": "asifhasanarpon21@gmail.com",
+      "phone": "01964581171",
+      "driver_phone": "+880 1712-345678",
+      "status": "confirmed",
+      "created_at": "2026-11-17T15:00:00.000Z"
+    }
+  ]
+}
