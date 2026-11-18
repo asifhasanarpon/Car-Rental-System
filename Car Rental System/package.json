@@ -1,0 +1,8 @@
+{
+  "name": "car-rental-system",
+  "version": "1.0.0",
+  "description": "Executive Car Rental System",
+  "scripts": {
+    "build": "echo 'Build complete'"
+  }
+}
